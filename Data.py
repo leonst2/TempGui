@@ -31,26 +31,26 @@ def get_live_data():
     db.commit()
 
     try:
-        sql = "SELECT time FROM `sensor01` ORDER BY `sensor01`.`date` DESC LIMIT 1"
+        sql = "SELECT time FROM `sensor01` ORDER BY `sensor01`.`time` DESC, date LIMIT 1"
         cursor.execute(sql)
         res = cursor.fetchall()
         for x in res:
             axes_x.append(str(x[0]))
 
-        sql = "SELECT temperature FROM `sensor01` ORDER BY `sensor01`.`date` DESC LIMIT 1"
+        sql = "SELECT temperature FROM `sensor01` ORDER BY `sensor01`.`time` DESC, date LIMIT 1"
         cursor.execute(sql)
         res = cursor.fetchall()
         for x in res:
             temp_y.append(x[0])
 
-        sql = "SELECT humidity FROM `sensor01` ORDER BY `sensor01`.`date` DESC LIMIT 1"
+        sql = "SELECT humidity FROM `sensor01` ORDER BY `sensor01`.`time` DESC, date LIMIT 1"
         cursor.execute(sql)
         res = cursor.fetchall()
         for x in res:
             humidity = x[0]
             humidity_y.append(humidity)
 
-        sql = "SELECT pressure FROM `sensor01` ORDER BY `sensor01`.`date` DESC LIMIT 1"
+        sql = "SELECT pressure FROM `sensor01` ORDER BY `sensor01`.`time` DESC, date LIMIT 1"
         cursor.execute(sql)
         res = cursor.fetchall()
         for x in res:
