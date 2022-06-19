@@ -9,6 +9,7 @@ from matplotlib.figure import Figure
 class GraphFrame(ctk.CTkFrame):
     stop = False
     value_select = 0
+    category = 0
 
     def __init__(self, master):
         super().__init__(master)
@@ -53,18 +54,54 @@ class GraphFrame(ctk.CTkFrame):
         def get_selected_value():
             if self.value_select == 0:
                 print("all data")
-
+                if self.category == 0:
+                    print("live")
+                if self.category == 1:
+                    print("today")
+                if self.category == 2:
+                    print("24-hours")
+                if self.category == 3:
+                    print("1-week")
             if self.value_select == 1:
                 print("temperature")
-
+                if self.category == 0:
+                    print("live")
+                if self.category == 1:
+                    print("today")
+                if self.category == 2:
+                    print("24-hours")
+                if self.category == 3:
+                    print("1-week")
             if self.value_select == 2:
                 print("pressure")
-
+                if self.category == 0:
+                    print("live")
+                if self.category == 1:
+                    print("today")
+                if self.category == 2:
+                    print("24-hours")
+                if self.category == 3:
+                    print("1-week")
             if self.value_select == 3:
                 print("humidity")
-
+                if self.category == 0:
+                    print("live")
+                if self.category == 1:
+                    print("today")
+                if self.category == 2:
+                    print("24-hours")
+                if self.category == 3:
+                    print("1-week")
             if self.value_select == 4:
                 print("list view")
+                if self.category == 0:
+                    print("live")
+                if self.category == 1:
+                    print("today")
+                if self.category == 2:
+                    print("24-hours")
+                if self.category == 3:
+                    print("1-week")
 
         graphFrame = ctk.CTkFrame(master=master, fg_color=cp.lightGrey, corner_radius=10)
         graphFrame.grid(row=0, column=1, sticky="nswe", padx=20, pady=20)

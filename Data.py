@@ -43,14 +43,14 @@ def get_live_data():
         for x in res:
             temp_y.append(x[0])
 
-        sql = "SELECT humidity FROM sensor01"
+        sql = "SELECT humidity FROM `sensor01` ORDER BY `sensor01`.`date` DESC LIMIT 1"
         cursor.execute(sql)
         res = cursor.fetchall()
         for x in res:
             humidity = x[0]
             humidity_y.append(humidity)
 
-        sql = "SELECT pressure FROM sensor01"
+        sql = "SELECT pressure FROM `sensor01` ORDER BY `sensor01`.`date` DESC LIMIT 1"
         cursor.execute(sql)
         res = cursor.fetchall()
         for x in res:
