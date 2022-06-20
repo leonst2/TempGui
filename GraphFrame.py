@@ -46,7 +46,7 @@ class GraphFrame(ctk.CTkFrame):
                 # plot1.set_ylim(ymin=0, ymax=30)
                 canvas1.draw()
                 canvas1.get_tk_widget().pack(side=ctk.TOP, fill='x', padx=40, pady=40)
-                master.after(10000, load_graph(x_axes, y_axes))
+                master.after(10000)
             else:
                 print("Stopped progress!")
                 self.stop = True

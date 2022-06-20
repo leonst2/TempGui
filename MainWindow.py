@@ -15,11 +15,6 @@ def noFullscreen(event):
     window.attributes('-fullscreen', False)
 
 
-def test():
-    print(1)
-    window.after(10000, test)
-
-
 screen_w = window.winfo_screenwidth()
 screen_h = window.winfo_screenheight()
 app_h = 1080
