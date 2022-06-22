@@ -1,7 +1,7 @@
 import customtkinter as ctk
 import Colorpalet as cp
 import threading
-import Data as data
+# import Data as data
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
 from matplotlib.figure import Figure
 
@@ -28,19 +28,19 @@ class GraphFrame(ctk.CTkFrame):
         def live_graph_temp():
             btn1.configure(cursor="arrow", state="disabled")
             self.stop = True
-            load_graph(data.axes_x, data.temp_y)
+            # load_graph(data.axes_x, data.temp_y)
 
         def stop_refresh():
             if self.stop:
-                data.temp_y.clear()
-                data.axes_x.clear()
+                # data.temp_y.clear()
+                # data.axes_x.clear()
                 btn1.configure(cursor="hand2", state="normal")
                 self.stop = False
                 print("Stopped live refresh")
 
         def load_graph(x_axes, y_axes):
             if self.stop:
-                threading.Thread(target=data.get_live_data()).start()
+                # threading.Thread(target=data.get_live_data()).start()
                 plot1.clear()
                 plot1.plot(x_axes, y_axes)
                 # plot1.set_ylim(ymin=0, ymax=30)
@@ -103,8 +103,12 @@ class GraphFrame(ctk.CTkFrame):
                 if self.category == 3:
                     print("1-week")
 
+        def bring(frame):
+            frame.tkraise()
+
+        #----------Graph Frame----------
         graphFrame = ctk.CTkFrame(master=master, fg_color=cp.lightGrey, corner_radius=10)
-        graphFrame.grid(row=0, column=1, sticky="nswe", padx=20, pady=20)
+        graphFrame.grid(row=0, column=1, sticky="nswe", pady=20, padx=20)
 
         tabBar = ctk.CTkFrame(graphFrame, fg_color=cp.darkGrey, border_color=cp.darkGrey)
         tabBar.pack(side=ctk.TOP, padx=40, pady=10)
@@ -127,3 +131,10 @@ class GraphFrame(ctk.CTkFrame):
         canvas1 = FigureCanvasTkAgg(fig, graphFrame)
         canvas1.draw()
         canvas1.get_tk_widget().pack(side=ctk.TOP, fill='x', padx=40, pady=40)
+
+        # ----------Admin Frame----------
+        adminFrame = ctk.CTkFrame(master=master, fg_color=cp.lightGrey, corner_radius=10)
+        adminFrame.grid(row=0, column=1, sticky="nswe", pady=20, padx=20)
+
+        button = ctk.CTkButton(adminFrame, text="tkraise()", command=bring(graphFrame))
+        button.pack(side=ctk.TOP, padx=10, pady=10)

@@ -1,6 +1,6 @@
 import customtkinter as ctk
 import Colorpalet as cp
-from GraphFrame import GraphFrame
+from MainFrame import GraphFrame
 from SideFrame import SideFrame
 
 window = ctk.CTk()
