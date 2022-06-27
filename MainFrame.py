@@ -1,19 +1,19 @@
 import customtkinter as ctk
 import Colorpalet as cp
 import threading
-# import Data as data
+import Data as data
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
 from matplotlib.figure import Figure
 
 
 class GraphFrame(ctk.CTkFrame):
-    stop = False
-    value_select = 0
-    category = 0
+    stop = 0
+    toggleBar = 0
 
     def __init__(self, master):
         super().__init__(master)
 
+        # ----------Methods----------
         def select_button(btn_active):
             btn1.configure(fg_color=cp.lightGrey)
             btn1.configure(cursor="hand2", state="normal")
@@ -25,86 +25,32 @@ class GraphFrame(ctk.CTkFrame):
             btn4.configure(cursor="hand2", state="normal")
             btn_active.configure(fg_color=cp.darkGrey, state="disabled", cursor="arrow")
 
-        def live_graph_temp():
+        def start_refresh(state):
+            data.get_state(state)
             btn1.configure(cursor="arrow", state="disabled")
-            self.stop = True
-            # load_graph(data.axes_x, data.temp_y)
+            self.stop = 0
+            live_graph()
 
-        def stop_refresh():
-            if self.stop:
-                # data.temp_y.clear()
-                # data.axes_x.clear()
-                btn1.configure(cursor="hand2", state="normal")
-                self.stop = False
-                print("Stopped live refresh")
+        def load_graph(target):
+            data.get_state(target)
+            plot1.clear()
+            # plot1.set_ylim(ymin=0, ymax=30)
+            canvas1.draw()
+            canvas1.get_tk_widget().pack(side=ctk.TOP, fill='x', padx=40, pady=40)
 
-        def load_graph(x_axes, y_axes):
-            if self.stop:
-                # threading.Thread(target=data.get_live_data()).start()
+        def live_graph():
+            if self.stop == 1:
                 plot1.clear()
-                plot1.plot(x_axes, y_axes)
+                btn1.configure(cursor="hand2", state="normal")
+                self.stop = 0
+            else:
+                threading.Thread(target=data.get_live_data()).start()
+                plot1.clear()
+                plot1.plot(data.current_x, data.current_y)
                 # plot1.set_ylim(ymin=0, ymax=30)
                 canvas1.draw()
                 canvas1.get_tk_widget().pack(side=ctk.TOP, fill='x', padx=40, pady=40)
-                master.after(10000)
-            else:
-                print("Stopped progress!")
-                self.stop = True
-
-        def get_selected_value():
-            if self.value_select == 0:
-                print("all data")
-                if self.category == 0:
-                    print("live")
-                if self.category == 1:
-                    print("today")
-                if self.category == 2:
-                    print("24-hours")
-                if self.category == 3:
-                    print("1-week")
-            if self.value_select == 1:
-                print("temperature")
-                if self.category == 0:
-                    print("live")
-                if self.category == 1:
-                    print("today")
-                if self.category == 2:
-                    print("24-hours")
-                if self.category == 3:
-                    print("1-week")
-            if self.value_select == 2:
-                print("pressure")
-                if self.category == 0:
-                    print("live")
-                if self.category == 1:
-                    print("today")
-                if self.category == 2:
-                    print("24-hours")
-                if self.category == 3:
-                    print("1-week")
-            if self.value_select == 3:
-                print("humidity")
-                if self.category == 0:
-                    print("live")
-                if self.category == 1:
-                    print("today")
-                if self.category == 2:
-                    print("24-hours")
-                if self.category == 3:
-                    print("1-week")
-            if self.value_select == 4:
-                print("list view")
-                if self.category == 0:
-                    print("live")
-                if self.category == 1:
-                    print("today")
-                if self.category == 2:
-                    print("24-hours")
-                if self.category == 3:
-                    print("1-week")
-
-        def bring(frame):
-            frame.tkraise()
+                master.after(10000, lambda: [live_graph()])
 
         #----------Graph Frame----------
         graphFrame = ctk.CTkFrame(master=master, fg_color=cp.lightGrey, corner_radius=10)
@@ -113,16 +59,16 @@ class GraphFrame(ctk.CTkFrame):
         tabBar = ctk.CTkFrame(graphFrame, fg_color=cp.darkGrey, border_color=cp.darkGrey)
         tabBar.pack(side=ctk.TOP, padx=40, pady=10)
         btn1 = ctk.CTkButton(tabBar, corner_radius=0, text="LIVE", width=100, hover_color=cp.darkGrey,
-                             fg_color=cp.darkGrey, command=lambda: [select_button(btn1), live_graph_temp()])
+                             fg_color=cp.darkGrey, command=lambda: [select_button(btn1), start_refresh(0)])
         btn1.pack(side=ctk.LEFT)
         btn2 = ctk.CTkButton(tabBar, corner_radius=0, text="TODAY", width=100, hover_color=cp.darkGrey,
-                             fg_color=cp.lightGrey, command=lambda: [select_button(btn2), stop_refresh()])
+                             fg_color=cp.lightGrey, command=lambda: [select_button(btn2), load_graph(1)])
         btn2.pack(side=ctk.LEFT)
         btn3 = ctk.CTkButton(tabBar, corner_radius=0, text="24-HOURS", width=100, hover_color=cp.darkGrey,
-                             fg_color=cp.lightGrey, command=lambda: [select_button(btn3), stop_refresh()])
+                             fg_color=cp.lightGrey, command=lambda: [select_button(btn3), load_graph(2)])
         btn3.pack(side=ctk.LEFT)
         btn4 = ctk.CTkButton(tabBar, corner_radius=0, text="1-WEEK", width=100, hover_color=cp.darkGrey,
-                             fg_color=cp.lightGrey, command=lambda: [select_button(btn4), stop_refresh()])
+                             fg_color=cp.lightGrey, command=lambda: [select_button(btn4), load_graph(3)])
         btn4.pack(side=ctk.LEFT)
 
         fig = Figure(figsize=(16, 9))
@@ -135,6 +81,4 @@ class GraphFrame(ctk.CTkFrame):
         # ----------Admin Frame----------
         adminFrame = ctk.CTkFrame(master=master, fg_color=cp.lightGrey, corner_radius=10)
         adminFrame.grid(row=0, column=1, sticky="nswe", pady=20, padx=20)
-
-        button = ctk.CTkButton(adminFrame, text="tkraise()", command=bring(graphFrame))
-        button.pack(side=ctk.TOP, padx=10, pady=10)
+        graphFrame.tkraise()

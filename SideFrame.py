@@ -1,6 +1,6 @@
 import customtkinter as ctk
 import Colorpalet as cp
-import MainFrame as gp
+import Data as data
 from PIL import Image, ImageTk
 import os
 
@@ -20,8 +20,12 @@ class SideFrame(ctk.CTkFrame):
         set_img = ImageTk.PhotoImage(Image.open(PATH + "/images/settings.png").resize((20, 20), Image.ANTIALIAS))
         pro_img = ImageTk.PhotoImage(Image.open(PATH + "/images/profile.png").resize((20, 20), Image.ANTIALIAS))
 
-        def set_value_select(value):
-            gp.GraphFrame.value_select = value
+        def set_current_target(x, y):
+            data.current_x.clear()
+            data.current_y.clear()
+            data.current_x.append(x)
+            data.current_y.append(y)
+            print(data.current_y)
 
         def hover_info(event, btn, select):
             if select:
@@ -51,42 +55,50 @@ class SideFrame(ctk.CTkFrame):
         info_entry = ctk.CTkLabel(master=sideFrame, fg_color="white", text="")
         info_entry.pack(side=ctk.TOP, fill='x', padx=10, pady=20)
 
-        btn_graph = ctk.CTkButton(master=sideFrame, image=skale_img, text="", width=80, height=60, compound="right", fg_color=cp.blue, cursor="hand2", command=set_value_select(0))
+        btn_graph = ctk.CTkButton(master=sideFrame, image=skale_img, text="", width=80, height=60, compound="right", fg_color=cp.blue, cursor="hand2",
+                                  command=lambda: [])
         btn_graph.pack(side=ctk.TOP, fill='x', padx=10, pady=0)
         btn_graph.bind("<Enter>", lambda event, btn=btn_graph, select=True: hover_info(event, btn, select))
         btn_graph.bind("<Leave>", lambda event, btn=btn_graph, select=False: hover_info(event, btn, select))
 
-        btn_temp = ctk.CTkButton(master=sideFrame, image=temp_img, text="", width=80, height=60, compound="right", fg_color=cp.blue, cursor="hand2", command=set_value_select(1))
+        btn_temp = ctk.CTkButton(master=sideFrame, image=temp_img, text="", width=80, height=60, compound="right", fg_color=cp.blue, cursor="hand2",
+                                 command=lambda: [set_current_target(data.current_time, data.current_temp)])
         btn_temp.pack(side=ctk.TOP, fill='x', padx=10, pady=20)
         btn_temp.bind("<Enter>", lambda event, btn=btn_temp, select=True: hover_info(event, btn, select))
         btn_temp.bind("<Leave>", lambda event, btn=btn_temp, select=False: hover_info(event, btn, select))
 
-        btn_pressure = ctk.CTkButton(master=sideFrame, image=pres_img, text="", width=80, height=60, compound="right", fg_color=cp.blue, cursor="hand2", command=set_value_select(2))
+        btn_pressure = ctk.CTkButton(master=sideFrame, image=pres_img, text="", width=80, height=60, compound="right", fg_color=cp.blue, cursor="hand2",
+                                     command=lambda: [set_current_target(data.current_time, data.current_pressure)])
         btn_pressure.pack(side=ctk.TOP, fill='x', padx=10, pady=0)
         btn_pressure.bind("<Enter>", lambda event, btn=btn_pressure, select=True: hover_info(event, btn, select))
         btn_pressure.bind("<Leave>", lambda event, btn=btn_pressure, select=False: hover_info(event, btn, select))
 
-        btn_humidity = ctk.CTkButton(master=sideFrame, image=hum_img, text="", width=80, height=60, compound="right", fg_color=cp.blue, cursor="hand2", command=set_value_select(3))
+        btn_humidity = ctk.CTkButton(master=sideFrame, image=hum_img, text="", width=80, height=60, compound="right", fg_color=cp.blue, cursor="hand2",
+                                     command=lambda: [set_current_target(data.current_time, data.current_humidity)])
         btn_humidity.pack(side=ctk.TOP, fill='x', padx=10, pady=20)
         btn_humidity.bind("<Enter>", lambda event, btn=btn_humidity, select=True: hover_info(event, btn, select))
         btn_humidity.bind("<Leave>", lambda event, btn=btn_humidity, select=False: hover_info(event, btn, select))
 
-        btn_list = ctk.CTkButton(master=sideFrame, image=list_img, text="", width=80, height=60, compound="right", fg_color=cp.blue, cursor="hand2", command=set_value_select(4))
+        btn_list = ctk.CTkButton(master=sideFrame, image=list_img, text="", width=80, height=60, compound="right", fg_color=cp.blue, cursor="hand2",
+                                 command=lambda: [])
         btn_list.pack(side=ctk.TOP, fill='x', padx=10, pady=0)
         btn_list.bind("<Enter>", lambda event, btn=btn_list, select=True: hover_info(event, btn, select))
         btn_list.bind("<Leave>", lambda event, btn=btn_list, select=False: hover_info(event, btn, select))
 
-        btn_profile = ctk.CTkButton(master=sideFrame, image=pro_img, text="", width=80, height=60, compound="right", fg_color=cp.blue, cursor="hand2")
+        btn_profile = ctk.CTkButton(master=sideFrame, image=pro_img, text="", width=80, height=60, compound="right", fg_color=cp.blue, cursor="hand2",
+                                    command=lambda: [])
         btn_profile.pack(side=ctk.BOTTOM, fill='x', padx=10, pady=20)
         btn_profile.bind("<Enter>", lambda event, btn=btn_profile, select=True: hover_info(event, btn, select))
         btn_profile.bind("<Leave>", lambda event, btn=btn_profile, select=False: hover_info(event, btn, select))
 
-        btn_settings = ctk.CTkButton(master=sideFrame, image=set_img, text="", width=80, height=60, compound="right", fg_color=cp.blue, cursor="hand2")
+        btn_settings = ctk.CTkButton(master=sideFrame, image=set_img, text="", width=80, height=60, compound="right", fg_color=cp.blue, cursor="hand2",
+                                     command=lambda: [])
         btn_settings.pack(side=ctk.BOTTOM, fill='x', padx=10, pady=0)
         btn_settings.bind("<Enter>", lambda event, btn=btn_settings, select=True: hover_info(event, btn, select))
         btn_settings.bind("<Leave>", lambda event, btn=btn_settings, select=False: hover_info(event, btn, select))
 
-        btn_news = ctk.CTkButton(master=sideFrame, image=news_img, text="", width=80, height=60, compound="right", fg_color=cp.blue, cursor="hand2")
+        btn_news = ctk.CTkButton(master=sideFrame, image=news_img, text="", width=80, height=60, compound="right", fg_color=cp.blue, cursor="hand2",
+                                 command=lambda: [])
         btn_news.pack(side=ctk.BOTTOM, fill='x', padx=10, pady=20)
         btn_news.bind("<Enter>", lambda event, btn=btn_news, select=True: hover_info(event, btn, select))
         btn_news.bind("<Leave>", lambda event, btn=btn_news, select=False: hover_info(event, btn, select))
