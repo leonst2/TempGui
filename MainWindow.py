@@ -1,7 +1,8 @@
 import customtkinter as ctk
+import threading
 import Colorpalet as cp
+import Data as data
 from MainFrame import GraphFrame
-from SideFrame import SideFrame
 
 window = ctk.CTk()
 
@@ -31,8 +32,6 @@ window.grid_columnconfigure(1, weight=1)
 window.grid_rowconfigure(0, weight=1)
 window.bind("<F11>", setFullscreen)
 window.bind("<Escape>", noFullscreen)
-
-sideFrame = SideFrame(master=window, width=100, fgcolor=cp.lightGrey)
 
 mainView = GraphFrame(master=window)
 

@@ -21,54 +21,19 @@ week_temp = []
 week_humidity = []
 week_pressure = []
 
-current_time = []
-current_temp = []
-current_humidity = []
-current_pressure = []
-
-current_x = []
-current_y = []
-
-state = 0
+current_today = []
+current_hours = []
+current_week = []
 
 print(time.ctime(time.time()), ": Try to connect... ")
 db = mysql.connector.connect(
-    host="raspberrypi",
+    host="91.34.119.145",
     user="root",
-    password="tizi",
-    database="sensordaten"
+    password="root",
+    database="temperature_gui"
 )
 print(time.ctime(time.time()), ": Successfully connected")
 cursor = db.cursor()
-
-
-def get_state(new_value):
-    current_time.clear()
-    current_temp.clear()
-    current_humidity.clear()
-    current_pressure.clear()
-    target = new_value
-    if target == 0:
-        current_time.append(live_time)
-        current_temp.append(live_temp)
-        current_humidity.append(live_humidity)
-        current_pressure.append(live_pressure)
-    if target == 1:
-        current_time.append(today_time)
-        current_temp.append(today_temp)
-        current_humidity.append(today_humidity)
-        current_pressure.append(today_pressure)
-    if target == 2:
-        current_time.append(hours_time)
-        current_temp.append(hours_temp)
-        current_humidity.append(hours_humidity)
-        current_pressure.append(hours_pressure)
-    if target == 3:
-        current_time.append(week_time)
-        current_temp.append(week_temp)
-        current_humidity.append(week_humidity)
-        current_pressure.append(week_pressure)
-    print(current_temp)
 
 
 def get_live_data():
@@ -85,28 +50,32 @@ def get_live_data():
     db.commit()
 
     try:
-        sql = "SELECT time FROM `sensor01` ORDER BY date DESC, time DESC LIMIT 1"
+        sql = "SELECT time FROM `sensordaten` ORDER BY date DESC, time DESC LIMIT 1"
         cursor.execute(sql)
         res = cursor.fetchall()
         for x in res:
+            print(str(x[0]))
             live_time.append(str(x[0]))
 
-        sql = "SELECT temperature FROM `sensor01` ORDER BY date DESC, time DESC LIMIT 1"
+        sql = "SELECT temperature FROM `sensordaten` ORDER BY date DESC, time DESC LIMIT 1"
         cursor.execute(sql)
         res = cursor.fetchall()
         for x in res:
+            print(str(x[0]))
             live_temp.append(x[0])
 
-        sql = "SELECT humidity FROM `sensor01` ORDER BY date DESC, time DESC LIMIT 1"
+        sql = "SELECT humidity FROM `sensordaten` ORDER BY date DESC, time DESC LIMIT 1"
         cursor.execute(sql)
         res = cursor.fetchall()
         for x in res:
+            print(str(x[0]))
             live_humidity.append(x[0])
 
-        sql = "SELECT pressure FROM `sensor01` ORDER BY date DESC, time DESC LIMIT 1"
+        sql = "SELECT pressure FROM `sensordaten` ORDER BY date DESC, time DESC LIMIT 1"
         cursor.execute(sql)
         res = cursor.fetchall()
         for x in res:
+            print(str(x[0]))
             live_pressure.append(x[0])
 
         print(time.ctime(time.time()), ": Closed cursor")
@@ -117,3 +86,21 @@ def get_live_data():
 
 def load_all_data():
     print("loaded all data")
+
+
+def set_current_data(category):
+    current_today.clear()
+    current_hours.clear()
+    current_week.clear()
+    if category == 1:
+        current_today.extend(today_temp)
+        current_hours.extend(hours_temp)
+        current_week.extend(week_temp)
+    elif category == 2:
+        current_today.extend(today_humidity)
+        current_hours.extend(hours_humidity)
+        current_week.extend(week_humidity)
+    elif category == 3:
+        current_today.extend(today_pressure)
+        current_hours.extend(hours_pressure)
+        current_week.extend(week_pressure)
