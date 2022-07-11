@@ -1,7 +1,7 @@
 import customtkinter as ctk
 import Colorpalet as cp
 import threading
-import Data as data
+#import Data as data
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
 from matplotlib.figure import Figure
 from PIL import Image, ImageTk
@@ -24,8 +24,8 @@ class GraphFrame(ctk.CTkFrame):
             btn2.configure(cursor="hand2", state="normal")
             btn3.configure(fg_color=cp.lightGrey)
             btn3.configure(cursor="hand2", state="normal")
-            btn4.configure(fg_color=cp.lightGrey)
-            btn4.configure(cursor="hand2", state="normal")
+            #btn4.configure(fg_color=cp.lightGrey)
+            #btn4.configure(cursor="hand2", state="normal")
             btn_active.configure(fg_color=cp.darkGrey, state="disabled", cursor="arrow")
 
         def load_graph(value_x, value_y):
@@ -67,26 +67,26 @@ class GraphFrame(ctk.CTkFrame):
         def hover_info(event, btn, select):
             if select:
                 info_entry.configure(text=btn.text)
-                if str(btn) == ".!ctkframe.!ctkbutton":
+                if str(btn) == ".!ctkframe3.!ctkbutton":
                     info_entry.configure(text="All data")
-                if str(btn) == ".!ctkframe.!ctkbutton2":
+                if str(btn) == ".!ctkframe3.!ctkbutton2":
                     info_entry.configure(text="Temperature")
-                if str(btn) == ".!ctkframe.!ctkbutton3":
+                if str(btn) == ".!ctkframe3.!ctkbutton3":
                     info_entry.configure(text="Pressure")
-                if str(btn) == ".!ctkframe.!ctkbutton4":
+                if str(btn) == ".!ctkframe3.!ctkbutton4":
                     info_entry.configure(text="Humidity")
-                if str(btn) == ".!ctkframe.!ctkbutton5":
+                if str(btn) == ".!ctkframe3.!ctkbutton5":
                     info_entry.configure(text="List View")
-                if str(btn) == ".!ctkframe.!ctkbutton6":
+                if str(btn) == ".!ctkframe3.!ctkbutton6":
                     info_entry.configure(text="Profile")
-                if str(btn) == ".!ctkframe.!ctkbutton7":
+                if str(btn) == ".!ctkframe3.!ctkbutton7":
                     info_entry.configure(text="Settings")
-                if str(btn) == ".!ctkframe.!ctkbutton8":
+                if str(btn) == ".!ctkframe3.!ctkbutton8":
                     info_entry.configure(text="News")
             else:
                 info_entry.configure(text="")
 
-        #----------Graph Frame----------
+        # ----------Graph Frame----------
         graphFrame = ctk.CTkFrame(master=master, fg_color=cp.lightGrey, corner_radius=10)
         graphFrame.grid(row=0, column=1, sticky="nswe", pady=20, padx=20)
 
@@ -102,7 +102,7 @@ class GraphFrame(ctk.CTkFrame):
                              fg_color=cp.lightGrey, command=lambda: [select_button(btn3)])
         btn3.pack(side=ctk.LEFT)
         btn4 = ctk.CTkButton(tabBar, corner_radius=0, text="1-WEEK", width=100, hover_color=cp.darkGrey,
-                             fg_color=cp.lightGrey, command=lambda: [select_button(btn4)])
+                             fg_color=cp.lightGrey, command=lambda: [select_button(btn4)], state="disabled")
         btn4.pack(side=ctk.LEFT)
 
         fig = Figure(figsize=(16, 9))
@@ -117,7 +117,7 @@ class GraphFrame(ctk.CTkFrame):
         adminFrame.grid(row=0, column=1, sticky="nswe", pady=20, padx=20)
         graphFrame.tkraise()
 
-        # Side Frame
+        # ----------Side Frame----------
         PATH = os.path.dirname(os.path.realpath(__file__))
         skale_img = ImageTk.PhotoImage(Image.open(PATH + "/images/skale.png").resize((20, 20), Image.ANTIALIAS))
         temp_img = ImageTk.PhotoImage(Image.open(PATH + "/images/temperature.png").resize((20, 20), Image.ANTIALIAS))
