@@ -1,6 +1,7 @@
 import os
 from tkinter.ttk import Progressbar
 import customtkinter as ctk
+import Colorpalet as cp
 import win32con
 import win32gui
 from PIL import Image, ImageTk
@@ -21,10 +22,12 @@ def mainApp():
         window.attributes('-fullscreen', False)
 
     window = ctk.CTk()
-    window.state("zoomed")
+    #window.state("zoomed")
+    window.geometry("1920x1080+0+0")
     window.title("Temperature-Master")
     window.resizable(True, True)
     window.iconbitmap(default=PATH+"/images/icon.ico")
+    window.configure(bg=cp.windowBgColor)
     window.grid_columnconfigure(1, weight=1)
     window.grid_rowconfigure(0, weight=1)
     window.bind("<F11>", setFullscreen)
@@ -85,7 +88,7 @@ def progress():
 
 
 def kill_splash():
-    check_container.configure(text="Successfully connected!", fg_color="lightgreen")
+    check_container.configure(text="Successfully connected!", fg_color=cp.limeGreen)
     splash.update_idletasks()
     splash.after(1000)
     splash.destroy()
@@ -94,4 +97,3 @@ def kill_splash():
 
 splash.after(1000, progress)
 splash.mainloop()
-
