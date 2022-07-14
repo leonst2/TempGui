@@ -23,7 +23,7 @@ def mainApp():
 
     window = ctk.CTk()
     #window.state("zoomed")
-    window.geometry("1920x1080+0+0")
+    window.geometry("1920x1080+1000+0")
     window.title("Temperature-Master")
     window.resizable(True, True)
     window.iconbitmap(default=PATH+"/images/icon.ico")
@@ -32,8 +32,10 @@ def mainApp():
     window.grid_rowconfigure(0, weight=1)
     window.bind("<F11>", setFullscreen)
     window.bind("<Escape>", noFullscreen)
+    window.set_appearance_mode(mode_string="light")
 
     mainView = GraphFrame(master=window)
+    mainView.grid(row=0, column=1, sticky="nswe", pady=20, padx=20)
 
     if __name__ == '__main__':
         window.mainloop()

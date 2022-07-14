@@ -1,9 +1,10 @@
 import customtkinter as ctk
 import Colorpalet as cp
-import threading
-#import Data as data
+import tkinter as tk
+# import Data as data
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
 from matplotlib.figure import Figure
+from tkinter.ttk import Progressbar
 from PIL import Image, ImageTk
 import os
 
@@ -25,15 +26,67 @@ class GraphFrame(ctk.CTkFrame):
             btn2.configure(cursor="hand2", state="normal")
             btn3.configure(fg_color=cp.mainBgColor)
             btn3.configure(cursor="hand2", state="normal")
-            #btn4.configure(fg_color=cp.lightGrey)
-            #btn4.configure(cursor="hand2", state="normal")
+            # btn4.configure(fg_color=cp.lightGrey)
+            # btn4.configure(cursor="hand2", state="normal")
             btn_active.configure(fg_color=cp.darkGrey, state="disabled", cursor="arrow")
 
         def switchMode():
             if self.mode == 0:
+                master.set_appearance_mode(mode_string="dark")
+                btn_graph.configure(fg_color=cp.darkPurple)
+                btn_temp.configure(fg_color=cp.darkPurple)
+                btn_pressure.configure(fg_color=cp.darkPurple)
+                btn_humidity.configure(fg_color=cp.darkPurple)
+                btn_list.configure(fg_color=cp.darkPurple)
+                btn_profile.configure(fg_color=cp.darkPurple)
+                btn_settings.configure(fg_color=cp.darkPurple)
+                btn_news.configure(fg_color=cp.darkPurple)
+                master.configure(fg_color=cp.windowBgDark)
+                adminFrame.configure(fg_color=cp.darkBgColor)
+                sideFrame.configure(fg_color=cp.darkBgColor)
+                graphFrame.configure(fg_color=cp.darkBgColor)
+                fig.set_facecolor(cp.darkBgColor)
+                plot1.set_facecolor(cp.darkBgColor)
+                appearenceBox.configure(fg_color=cp.darkGrey2)
+                darkModeBox.configure(fg_color=cp.darkGrey2)
+                darkModeSwitch.configure(button_color=cp.darkGrey)
+                optionBox.configure(fg_color=cp.darkGrey2)
+                optionMenu.configure(fg_color=cp.darkGrey3, button_color=cp.darkGrey3)
+                info_entry.configure(fg_color=cp.darkGrey2)
+                newsBox.configure(fg_color=cp.darkGrey2)
+                newsEntry.configure(bg=cp.darkGrey3)
+                pushBtn.configure(fg_color=cp.darkPurple)
+                pushBox.configure(fg_color=cp.darkGrey3)
+                titleBox.configure(fg_color=cp.darkGrey3)
                 print("dark")
                 self.mode = 1
             elif self.mode == 1:
+                master.set_appearance_mode(mode_string="light")
+                btn_graph.configure(fg_color=cp.lightBlue)
+                btn_temp.configure(fg_color=cp.lightBlue)
+                btn_pressure.configure(fg_color=cp.lightBlue)
+                btn_humidity.configure(fg_color=cp.lightBlue)
+                btn_list.configure(fg_color=cp.lightBlue)
+                btn_profile.configure(fg_color=cp.lightBlue)
+                btn_settings.configure(fg_color=cp.lightBlue)
+                btn_news.configure(fg_color=cp.lightBlue)
+                master.configure(fg_color=cp.windowBgLight)
+                adminFrame.configure(fg_color=cp.lightBgColor)
+                sideFrame.configure(fg_color=cp.lightBgColor)
+                graphFrame.configure(fg_color=cp.lightBgColor)
+                fig.set_facecolor(cp.lightBgColor)
+                plot1.set_facecolor(cp.lightBgColor)
+                appearenceBox.configure(fg_color=cp.white)
+                darkModeBox.configure(fg_color=cp.white)
+                darkModeSwitch.configure(button_color=cp.darkGrey)
+                optionBox.configure(fg_color=cp.white)
+                optionMenu.configure(fg_color=cp.lightBgColor, button_color=cp.lightBgColor)
+                info_entry.configure(fg_color=cp.white)
+                newsBox.configure(fg_color=cp.white)
+                newsEntry.configure(bg=cp.lightBgColor)
+                pushBtn.configure(fg_color=cp.lightBlue)
+                pushBox.configure(fg_color=cp.lightBgColor)
+                titleBox.configure(fg_color=cp.lightBgColor)
                 print("light")
                 self.mode = 0
 
@@ -48,8 +101,8 @@ class GraphFrame(ctk.CTkFrame):
             canvas1.get_tk_widget().pack(side=ctk.TOP, fill='x', padx=40, pady=40)
 
         def live_graph():
-            #btn1.configure(cursor="hand2", state="normal")
-            #self.stop = 0
+            # btn1.configure(cursor="hand2", state="normal")
+            # self.stop = 0
             plot1.clear()
             if self.category == 1:
                 plot1.plot(data.live_time, data.live_temp)
@@ -128,18 +181,56 @@ class GraphFrame(ctk.CTkFrame):
         # ----------Admin Frame----------
         adminFrame = ctk.CTkFrame(master=master, fg_color=cp.mainBgColor, corner_radius=10)
         adminFrame.grid(row=0, column=1, sticky="nswe", pady=20, padx=20)
-        style_container = ctk.CTkFrame(master=adminFrame, fg_color=cp.white, corner_radius=10)
-        style_container.pack(side=ctk.TOP, fill='x', padx=20, pady=20)
-        toggleMode = ctk.CTkSwitch(master=style_container, bg_color=cp.white, progress_color=cp.lightBlue, text="",
-                                   command=switchMode, width=45, height=25)
-        toggleMode.pack(side=ctk.LEFT, padx=20, pady=20)
-        optionMenu = ctk.CTkOptionMenu(master=style_container, values=["red", "purple", "blue"], fg_color=cp.lightBgColor,
-                                       button_color=cp.lightBgColor, button_hover_color=cp.darkGrey, dropdown_color=cp.lightBgColor,
-                                       dropdown_hover_color=cp.darkGrey)
+
+        appearenceBox = ctk.CTkFrame(master=adminFrame, fg_color=cp.white, corner_radius=10)
+        appearenceBox.pack(side=ctk.TOP, padx=20, pady=20, fill="x")
+
+        darkModeBox = ctk.CTkFrame(master=appearenceBox, fg_color=cp.white, corner_radius=10)
+        darkModeBox.pack(side=ctk.LEFT, padx=20, pady=20, anchor="nw")
+        darkModeLabel = ctk.CTkLabel(master=darkModeBox, text="DarkMode")
+        darkModeLabel.pack(side=ctk.TOP, padx=20, pady=20)
+        darkModeLabel.config(font=("Ariel", 12, "bold"))
+        darkModeSwitch = ctk.CTkSwitch(master=darkModeBox, bg_color=cp.white, progress_color=cp.lightPurple, text="",
+                                       command=switchMode, width=45, height=25)
+        darkModeSwitch.pack(side=ctk.BOTTOM, padx=20, pady=20)
+
+        optionBox = ctk.CTkFrame(master=appearenceBox, fg_color=cp.white, corner_radius=10)
+        optionBox.pack(side=ctk.LEFT, padx=20, pady=20, anchor="nw")
+        optionLabel = ctk.CTkLabel(master=optionBox, text="Graph color")
+        optionLabel.pack(side=ctk.TOP, padx=20, pady=20)
+        optionLabel.config(font=("Ariel", 12, "bold"))
+        optionMenu = ctk.CTkOptionMenu(master=optionBox, values=["red", "purple", "blue"], fg_color=cp.lightBgColor,
+                                       button_color=cp.lightBgColor, button_hover_color=cp.darkGrey,
+                                       dropdown_color=cp.lightBgColor, dropdown_hover_color=cp.darkGrey)
         optionMenu.pack(side=ctk.LEFT, padx=20, pady=20)
-        optionMenu.set("line color graph")
-        news_container = ctk.CTkFrame(master=adminFrame, fg_color=cp.white, corner_radius=10)
-        news_container.pack(side=ctk.TOP, fill='x', padx=20, pady=0)
+        optionMenu.set("graph color")
+
+        newsBox = ctk.CTkFrame(master=adminFrame, fg_color=cp.white, corner_radius=10)
+        newsBox.pack(side=ctk.TOP, padx=20, pady=0, fill="x")
+
+        newsLabel = ctk.CTkLabel(master=newsBox, text="Enter News:")
+        newsLabel.pack(side=tk.TOP, padx=0, pady=10, anchor="nw")
+        newsLabel.config(font=("Ariel", 12, "bold", "underline"))
+
+        titleBox = ctk.CTkFrame(master=newsBox, corner_radius=0)
+        titleBox.pack(side=ctk.TOP, padx=20, pady=20, expand=True, fill="x")
+        titleLabel = ctk.CTkLabel(master=titleBox, text="Enter Title:")
+        titleLabel.pack(side=tk.LEFT, padx=0, pady=20, anchor="nw")
+        titleLabel.config(font=("Ariel", 12, "bold"))
+        titleEntry = ctk.CTkEntry(master=titleBox, fg_color=cp.lightBgColor)
+        titleEntry.pack(side=ctk.LEFT, padx=0, pady=10)
+
+        newsEntry = tk.Text(master=newsBox, bd=0, bg=cp.lightBgColor, font=("Ariel", 12, "bold"))
+        newsEntry.pack(side=tk.TOP, padx=20, pady=0, fill="x")
+
+        pushBox = ctk.CTkFrame(master=newsBox, corner_radius=0)
+        pushBox.pack(side=ctk.TOP, padx=20, pady=20, anchor="nw", expand=True, fill="x")
+        pushBtn = ctk.CTkButton(master=pushBox, text="Publish News", fg_color=cp.lightBlue, cursor="hand2")
+        pushBtn.pack(side=tk.LEFT, padx=20, pady=20)
+        bar = Progressbar(pushBox, mode="determinate")
+        bar.pack(side=ctk.LEFT, fill="x", padx=0, pady=10, expand=True)
+        pushLabel = ctk.CTkLabel(master=pushBox, text="Connecting to database")
+        pushLabel.pack(side=tk.LEFT, padx=20, pady=20)
 
         # ----------Side Frame----------
         PATH = os.path.dirname(os.path.realpath(__file__))

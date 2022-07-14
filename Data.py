@@ -27,7 +27,7 @@ current_week = []
 
 print(time.ctime(time.time()), ": Try to connect... ")
 db = mysql.connector.connect(
-    host="91.34.119.145",
+    host="91.44.138.32",
     user="root",
     password="root",
     database="temperature_gui"
