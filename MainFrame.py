@@ -1,7 +1,8 @@
 import customtkinter as ctk
 import Colorpalet as cp
 import tkinter as tk
-# import Data as data
+import Data as data
+import threading
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
 from matplotlib.figure import Figure
 from tkinter.ttk import Progressbar
@@ -116,6 +117,7 @@ class GraphFrame(ctk.CTkFrame):
             master.after(10000, lambda: [live_graph()])
 
         def plot_new(category):
+            threading.Thread(target=data.get_live_data()).start()
             self.category = category
             data.set_current_data(category)
             if self.toggle_state == 1:
@@ -158,16 +160,16 @@ class GraphFrame(ctk.CTkFrame):
         tabBar = ctk.CTkFrame(graphFrame, fg_color=cp.darkGrey, border_color=cp.darkGrey)
         tabBar.pack(side=ctk.TOP, padx=40, pady=10)
         btn1 = ctk.CTkButton(tabBar, corner_radius=0, text="LIVE", width=100, hover_color=cp.darkGrey,
-                             fg_color=cp.darkGrey, command=lambda: [select_button(btn1), ], state="disabled")
+                             fg_color=cp.darkGrey, command=lambda: [select_button(btn1), data.get_live_data(), plot_new(0)], state="disabled")
         btn1.pack(side=ctk.LEFT)
         btn2 = ctk.CTkButton(tabBar, corner_radius=0, text="TODAY", width=100, hover_color=cp.darkGrey,
-                             fg_color=cp.lightBgColor, command=lambda: [select_button(btn2)], state="normal")
+                             fg_color=cp.lightBgColor, command=lambda: [select_button(btn2), plot_new(1)], state="normal")
         btn2.pack(side=ctk.LEFT)
         btn3 = ctk.CTkButton(tabBar, corner_radius=0, text="24-HOURS", width=100, hover_color=cp.darkGrey,
-                             fg_color=cp.lightBgColor, command=lambda: [select_button(btn3)], state="normal")
+                             fg_color=cp.lightBgColor, command=lambda: [select_button(btn3), plot_new(2)], state="normal")
         btn3.pack(side=ctk.LEFT)
         btn4 = ctk.CTkButton(tabBar, corner_radius=0, text="1-WEEK", width=100, hover_color=cp.darkGrey,
-                             fg_color=cp.lightBgColor, command=lambda: [select_button(btn4)], state="disabled")
+                             fg_color=cp.lightBgColor, command=lambda: [select_button(btn4), plot_new(3)], state="disabled")
         btn4.pack(side=ctk.LEFT)
 
         fig = Figure(figsize=(16, 9), facecolor=cp.mainBgColor)

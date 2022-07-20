@@ -5,7 +5,6 @@ import Colorpalet as cp
 import win32con
 import win32gui
 from PIL import Image, ImageTk
-# import Data as data
 from MainFrame import GraphFrame
 
 #hide = win32gui.GetForegroundWindow()

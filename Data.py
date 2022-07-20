@@ -27,61 +27,63 @@ current_week = []
 
 print(time.ctime(time.time()), ": Try to connect... ")
 db = mysql.connector.connect(
-    host="91.44.138.32",
-    user="root",
-    password="root",
-    database="temperature_gui"
+    host="91.34.119.145",
+    user="dbtempsens",
+    password="infhenjbg",
+    database="dbtempsens"
 )
 print(time.ctime(time.time()), ": Successfully connected")
 cursor = db.cursor()
 
 
 def get_live_data():
-    if len(live_time) > 10:
-        live_time.pop(0)
-    if len(live_temp) > 10:
-        live_temp.pop(0)
-    if len(live_humidity) > 10:
-        live_humidity.pop(0)
-    if len(live_pressure) > 10:
-        live_pressure.pop(0)
+    while True:
+        if len(live_time) > 10:
+            live_time.pop(0)
+        if len(live_temp) > 10:
+            live_temp.pop(0)
+        if len(live_humidity) > 10:
+            live_humidity.pop(0)
+        if len(live_pressure) > 10:
+            live_pressure.pop(0)
 
-    print(time.ctime(time.time()), ": Connected cursor")
-    db.commit()
+        print(time.ctime(time.time()), ": Connected cursor")
+        db.commit()
 
-    try:
-        sql = "SELECT time FROM `sensordaten` ORDER BY date DESC, time DESC LIMIT 1"
-        cursor.execute(sql)
-        res = cursor.fetchall()
-        for x in res:
-            print(str(x[0]))
-            live_time.append(str(x[0]))
+        try:
+            sql = "SELECT time FROM `sensordaten` ORDER BY date DESC, time DESC LIMIT 1"
+            cursor.execute(sql)
+            res = cursor.fetchall()
+            for x in res:
+                print(str(x[0]))
+                live_time.append(str(x[0]))
 
-        sql = "SELECT temperature FROM `sensordaten` ORDER BY date DESC, time DESC LIMIT 1"
-        cursor.execute(sql)
-        res = cursor.fetchall()
-        for x in res:
-            print(str(x[0]))
-            live_temp.append(x[0])
+            sql = "SELECT temperature FROM `sensordaten` ORDER BY date DESC, time DESC LIMIT 1"
+            cursor.execute(sql)
+            res = cursor.fetchall()
+            for x in res:
+                print(str(x[0]))
+                live_temp.append(x[0])
 
-        sql = "SELECT humidity FROM `sensordaten` ORDER BY date DESC, time DESC LIMIT 1"
-        cursor.execute(sql)
-        res = cursor.fetchall()
-        for x in res:
-            print(str(x[0]))
-            live_humidity.append(x[0])
+            sql = "SELECT humidity FROM `sensordaten` ORDER BY date DESC, time DESC LIMIT 1"
+            cursor.execute(sql)
+            res = cursor.fetchall()
+            for x in res:
+                print(str(x[0]))
+                live_humidity.append(x[0])
 
-        sql = "SELECT pressure FROM `sensordaten` ORDER BY date DESC, time DESC LIMIT 1"
-        cursor.execute(sql)
-        res = cursor.fetchall()
-        for x in res:
-            print(str(x[0]))
-            live_pressure.append(x[0])
+            sql = "SELECT pressure FROM `sensordaten` ORDER BY date DESC, time DESC LIMIT 1"
+            cursor.execute(sql)
+            res = cursor.fetchall()
+            for x in res:
+                print(str(x[0]))
+                live_pressure.append(x[0])
 
-        print(time.ctime(time.time()), ": Closed cursor")
+            print(time.ctime(time.time()), ": Closed cursor")
 
-    except:
-        print(time.ctime(time.time()), ": Not able to connect to Database")
+        except:
+            print(time.ctime(time.time()), ": Not able to connect to Database")
+        time.sleep(10)
 
 
 def load_all_data():
